@@ -1,0 +1,35 @@
+{
+  "flixbus": {
+    "Austin, TX": "131c905e-50f5-4001-8aaa-bc618ebd5b96",
+    "College Station, TX": "388c1cbb-cbb4-4711-8f95-1b8d438e6a22",
+    "Conroe, TX": "cd80351d-ad8d-4a26-b6ac-1ace9ac3c92d",
+    "Dallas, TX": "54f13a66-59ee-41d4-b017-e4240add0403",
+    "Houston, TX": "364040d5-ebfc-4628-b7b0-13e2377203c6",
+    "Prairie View, TX": "1d05e2c3-ae45-45a6-becc-8fd8b9ad05e6",
+    "San Antonio, TX": "ff905672-4924-47f4-9e1c-ef551b1f88ee",
+    "San Marcos, TX": "99dc3d80-3cc8-4f86-b2bf-392ae1a2ee45"
+  },
+  "megabus": {
+    "Austin, TX": "320",
+    "College Station, TX": "531",
+    "Conroe, TX": "569",
+    "Dallas, TX": "317",
+    "Houston, TX": "318",
+    "Prairie View, TX": "336",
+    "San Antonio, TX": "321",
+    "San Marcos, TX": "533"
+  },
+  "redcoach": {
+    "Fort Worth, TX": "29",
+    "Katy, TX": "9",
+    "San Marcos, TX": "30",
+    "Richardson, TX": "17",
+    "San Antonio, TX": "24",
+    "College Station, TX": "2",
+    "Houston, TX": "8",
+    "Austin, TX": "1",
+    "The Woodlands, TX": "28",
+    "Cypress, TX": "27",
+    "Dallas, TX": "3"
+  }
+}
