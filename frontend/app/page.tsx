@@ -48,7 +48,7 @@ export default function Home() {
     event.preventDefault(); // Prevent default form submission behavior
     // Construct the URL with query parameters
     const queryParams = new URLSearchParams(formData).toString();
-    const url = `http://txbus-production.up.railway.app/fetchBusData?${queryParams}`; // Ensure this URL matches your Flask endpoint and port
+    const url = `https://txbus-production.up.railway.app/fetchBusData?${queryParams}`; // Ensure this URL matches your Flask endpoint and port
 
     try {
       const response = await fetch(url); // GET request
