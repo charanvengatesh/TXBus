@@ -69,27 +69,33 @@ export default function Home() {
   }
 
   return (
-    <main>
-      <div>
-        <h1>TXBus</h1>
-        <form onSubmit={handleSubmit}>
+    <main className="p-4">
+      <div className="max-w-xl mx-auto">
+        <h1 className="text-4xl font-bold text-center mb-6">TXBus</h1>
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="date">Date:</label>
+            <label htmlFor="date" className="block text-lg font-medium">
+              Date:
+            </label>
             <input
               type="date"
               id="date"
               name="date"
               value={formData.date}
               onChange={handleChange}
+              className="mt-1 p-2 w-full border-2 border-gray-200 rounded-lg"
             />
           </div>
           <div>
-            <label htmlFor="departure">Departure City:</label>
+            <label htmlFor="departure" className="block text-lg font-medium">
+              Departure City:
+            </label>
             <select
               id="departure"
               name="departure"
               value={formData.departure}
               onChange={handleChange}
+              className="mt-1 p-2 w-full border-2 border-gray-200 rounded-lg"
             >
               <option value="">Select a city</option>
               {cities.map((city) => (
@@ -100,12 +106,15 @@ export default function Home() {
             </select>
           </div>
           <div>
-            <label htmlFor="arrival">Arrival City:</label>
+            <label htmlFor="arrival" className="block text-lg font-medium">
+              Arrival City:
+            </label>
             <select
               id="arrival"
               name="arrival"
               value={formData.arrival}
               onChange={handleChange}
+              className="mt-1 p-2 w-full border-2 border-gray-200 rounded-lg"
             >
               <option value="">Select a city</option>
               {cities.map((city) => (
@@ -116,7 +125,9 @@ export default function Home() {
             </select>
           </div>
           <div>
-            <label htmlFor="passengers">Passengers:</label>
+            <label htmlFor="passengers" className="block text-lg font-medium">
+              Passengers:
+            </label>
             <input
               type="number"
               id="passengers"
@@ -124,38 +135,48 @@ export default function Home() {
               value={formData.passengers}
               onChange={handleChange}
               min="1"
+              className="mt-1 p-2 w-full border-2 border-gray-200 rounded-lg"
             />
           </div>
-          <button type="submit">Search</button>
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white p-2 rounded-lg font-medium hover:bg-blue-600"
+          >
+            Search
+          </button>
         </form>
 
         {Array.isArray(searchResults) && searchResults.length > 0 && (
-          <div>
-            <h2>Search Results</h2>
-
-            <div></div>
+          <div className="mt-8">
+            <h2 className="text-2xl font-bold mb-4">Search Results</h2>
             {searchResults.map((result, index) => (
-              <div key={index}>
-                <p>
-                  <span>Date:</span> {result.date}
+              <div
+                key={index}
+                className="p-4 mb-4 border-2 border-gray-200 rounded-lg"
+              >
+                <h2 className="text-xl font-semibold">{result.operator}</h2>
+                <p className="font-medium">
+                  Date: <span className="font-normal">{result.date}</span>
                 </p>
-                <p>
-                  <span>Departure:</span>{" "}
-                  {result.departureCity} ({result.departureStation}) at{" "}
-                  {result.departureTime}
+                <p className="font-medium">
+                  Departure:{" "}
+                  <span className="font-normal">
+                    {result.departureCity} ({result.departureStation}) at{" "}
+                    {result.departureTime}
+                  </span>
                 </p>
-                <p>
-                  <span>Arrival:</span>{" "}
-                  {result.arrivalCity} ({result.arrivalStation}) at{" "}
-                  {result.arrivalTime}
+                <p className="font-medium">
+                  Arrival:{" "}
+                  <span className="font-normal">
+                    {result.arrivalCity} ({result.arrivalStation}) at{" "}
+                    {result.arrivalTime}
+                  </span>
                 </p>
-                <p>
-                  <span>Operator:</span>{" "}
-                  {result.operator}
-                </p>
-                <p>
-                  <span>Price:</span> $
-                  {result.price.toFixed(2)}
+                <p className="font-medium">
+                  Price:{" "}
+                  <span className="font-normal">
+                    ${result.price.toFixed(2)}
+                  </span>
                 </p>
               </div>
             ))}
