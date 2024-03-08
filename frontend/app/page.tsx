@@ -46,7 +46,7 @@ export default function Home() {
     event: FormEvent<HTMLFormElement>
   ): Promise<void> {
     event.preventDefault(); // Prevent default form submission behavior
-    const url = "http://localhost:3001/submitForm"; // Update this URL to your Flask endpoint
+    const url = "https://txbus-production.up.railway.app/submitForm"; // Update this URL to your Flask endpoint
 
     try {
       const response = await fetch(url, {

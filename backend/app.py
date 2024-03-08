@@ -36,7 +36,8 @@ def submit_form():
 
     # Process the data...
     
-    res = requests.get("http://localhost:3001/fetchBusData", params=data)
+    res = requests.get(
+        "https://txbus-production.up.railway.app/fetchBusData", params=data)
 
     print(res.url)
 
