@@ -6,7 +6,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 # Define the base URL
 # Load city IDs once
-with open('./backend/cityID.json', 'r') as f:
+with open('./cityID.json', 'r') as f:
     city_id = json.load(f)
 
 session = requests.Session()
