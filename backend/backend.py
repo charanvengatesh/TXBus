@@ -56,6 +56,8 @@ def fetchData(operator, date, departure, arrival, passengers):
     response.raise_for_status()
     data = response.json()
     trips = process_data(data, operator)
+    
+    trips = [trip for trip in trips if trip['price'] != 0]
 
     return json.dumps(trips, indent=4)
 

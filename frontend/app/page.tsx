@@ -7,7 +7,7 @@ export default function Home() {
     date: "",
     departure: "",
     arrival: "",
-    passengers: "",
+    passengers: "1",
   });
 
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
@@ -48,7 +48,8 @@ export default function Home() {
     event.preventDefault(); // Prevent default form submission behavior
     // Construct the URL with query parameters
     const queryParams = new URLSearchParams(formData).toString();
-    const url = `https://txbus-production.up.railway.app/fetchBusData?${queryParams}`; // Ensure this URL matches your Flask endpoint and port
+    // const url = `https://txbus-production.up.railway.app/fetchBusData?${queryParams}`; // Ensure this URL matches your Flask endpoint and port
+    const url = `http://127.0.0.1:5000/fetchBusData?${queryParams}`; // Ensure this URL matches your Flask endpoint and port
 
     try {
       const response = await fetch(url); // GET request
@@ -70,18 +71,34 @@ export default function Home() {
       <div className="max-w-xl mx-auto">
         <h1 className="text-4xl font-bold text-center mb-6">TXBus</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label htmlFor="date" className="block text-lg font-medium">
-              Date:
-            </label>
-            <input
-              type="date"
-              id="date"
-              name="date"
-              value={formData.date}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border-2 border-gray-200 rounded-lg"
-            />
+          <div className="flex justify-between gap-4">
+            <div className="flex-1">
+              <label htmlFor="date" className="block text-lg font-medium">
+                Date:
+              </label>
+              <input
+                type="date"
+                id="date"
+                name="date"
+                value={formData.date}
+                onChange={handleChange}
+                className="mt-1 p-2 w-full border-2 border-gray-200 rounded-lg"
+              />
+            </div>
+            <div className="flex-1">
+              <label htmlFor="passengers" className="block text-lg font-medium">
+                Passengers:
+              </label>
+              <input
+                type="number"
+                id="passengers"
+                name="passengers"
+                value={formData.passengers}
+                onChange={handleChange}
+                min="1"
+                className="mt-1 p-2 w-full border-2 border-gray-200 rounded-lg"
+              />
+            </div>
           </div>
           <div>
             <label htmlFor="departure" className="block text-lg font-medium">
@@ -120,20 +137,6 @@ export default function Home() {
                 </option>
               ))}
             </select>
-          </div>
-          <div>
-            <label htmlFor="passengers" className="block text-lg font-medium">
-              Passengers:
-            </label>
-            <input
-              type="number"
-              id="passengers"
-              name="passengers"
-              value={formData.passengers}
-              onChange={handleChange}
-              min="1"
-              className="mt-1 p-2 w-full border-2 border-gray-200 rounded-lg"
-            />
           </div>
           <button
             type="submit"
