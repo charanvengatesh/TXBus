@@ -28,22 +28,6 @@ def fetch_bus_data():
         return jsonify({"error": str(e)}), 500
 
 
-@app.route('/submitForm', methods=['POST'])
-def submit_form():
-    data = request.json
-    # Now data will contain the form data as a dictionary
-    # For example, to access the departure city: departure = data['departure']
-
-    # Process the data...
-    
-    res = requests.get(
-        "https://txbus-production.up.railway.app/fetchBusData", params=data)
-
-    print(res.url)
-
-    return res.text, 200
-
-    
 def main():
     app.run()
 

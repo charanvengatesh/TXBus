@@ -46,27 +46,24 @@ export default function Home() {
     event: FormEvent<HTMLFormElement>
   ): Promise<void> {
     event.preventDefault(); // Prevent default form submission behavior
-    const url = "https://txbus-production.up.railway.app/submitForm"; // Update this URL to your Flask endpoint
+    // Construct the URL with query parameters
+    const queryParams = new URLSearchParams(formData).toString();
+    const url = `http://txbus-production.up.railway.app/fetchBusData?${queryParams}`; // Ensure this URL matches your Flask endpoint and port
 
     try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(url); // GET request
 
       if (!response.ok) {
         throw new Error("Network response was not ok.");
       }
 
       const jsonResponse = await response.json();
-      setSearchResults(jsonResponse); // Make sure jsonResponse is in the correct format
+      setSearchResults(jsonResponse); // Ensure jsonResponse is in the correct format
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }
   }
+
 
   return (
     <main className="p-4">
