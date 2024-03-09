@@ -11,6 +11,7 @@ export default function Home() {
   });
 
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [sortOption, setSortOption] = useState<string>("");
 
   interface SearchResult {
     arrivalCity: string;
@@ -42,6 +43,23 @@ export default function Home() {
     }));
   };
 
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortOption(e.target.value);
+  };
+
+  const sortResults = (results: SearchResult[]) => {
+    switch (sortOption) {
+      case "priceLowHigh":
+        return results.sort((a, b) => a.price - b.price);
+      case "priceHighLow":
+        return results.sort((a, b) => b.price - a.price);
+      case "alphabetical":
+        return results.sort((a, b) => a.operator.localeCompare(b.operator));
+      default:
+        return results;
+    }
+  };
+
   async function handleSubmit(
     event: FormEvent<HTMLFormElement>
   ): Promise<void> {
@@ -65,6 +83,7 @@ export default function Home() {
     }
   }
 
+  const sortedResults = sortResults([...searchResults]);
 
   return (
     <main className="p-4">
@@ -145,13 +164,27 @@ export default function Home() {
             Search
           </button>
         </form>
-
-        {Array.isArray(searchResults) && searchResults.length > 0 && (
+        {Array.isArray(sortedResults) && sortedResults.length > 0 && (
           <div className="mt-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <h2 className="text-2xl font-bold mb-4 col-span-full">
-              Search Results
-            </h2>
-            {searchResults.map((result, index) => (
+            <div className="flex justify-between">
+              <h2 className="text-2xl font-bold col-span-full">
+                Search Results
+              </h2>
+              <div className="flex mb-2">
+                <select
+                  id="sort"
+                  value={sortOption}
+                  onChange={handleSortChange}
+                  className="p-2 border-2 border-gray-200 rounded-lg"
+                >
+                  <option value="">Select sort option</option>
+                  <option value="priceLowHigh">Price (Low to High)</option>
+                  <option value="priceHighLow">Price (High to Low)</option>
+                  <option value="alphabetical">Alphabetical (A-Z)</option>
+                </select>
+              </div>
+            </div>
+            {sortedResults.map((result, index) => (
               <div
                 key={index}
                 className="p-4 mt-2 border-2 border-gray-200 rounded-lg"
@@ -164,6 +197,7 @@ export default function Home() {
                 </div>
                 <div className="flex justify-between items-center mb-1">
                   <span className="font-normal">{result.departureTime}</span>
+                  <span className="font-light text-sm">{result.date}</span>
                   <span className="font-normal">{result.arrivalTime}</span>
                 </div>
                 <div className="flex justify-between items-center">
