@@ -105,7 +105,7 @@ export default function Home() {
     }
     console.log(url);
     try {
-      window.location.href = url;
+      window.open(url, "_blank");
     } catch (error) {
       console.error(
         "There was a problem redirecting to the booking page:",
