@@ -15,10 +15,12 @@ export default function Home() {
 
   interface SearchResult {
     arrivalCity: string;
+    arrivalCityID: string;
     arrivalStation: string;
     arrivalTime: string;
     date: string;
     departureCity: string;
+    departureCityID: string;
     departureStation: string;
     departureTime: string;
     operator: string;
@@ -82,6 +84,35 @@ export default function Home() {
       console.error("There was a problem with the fetch operation:", error);
     }
   }
+
+  const handleBookNow = async (result: SearchResult) => {
+    var url = "";
+    let operator = result.operator.toLowerCase();
+    
+    if (operator == "redcoach") {
+      url = `https://booking.redcoachusa.com/journeys?oStop=${result.departureCityID}&dStop=${result.arrivalCityID}&oDate=${result.date}&fareClasses=BONUS_SCHEME_GROUP.STUDENT,${formData.passengers}`;
+    } else if (operator == "megabus") {
+      const formattedDate = new Date(result.date).toISOString().split("T")[0];
+      url = `https://us.megabus.com/journey-planner/journeys?days=1&concessionCount=0&departureDate=${formattedDate}&destinationId=${result.arrivalCityID}&inboundOtherDisabilityCount=0&inboundPcaCount=0&inboundWheelchairSeated=0&nusCount=0&originId=${result.departureCityID}&otherDisabilityCount=0&pcaCount=0&totalPassengers=${formData.passengers}&wheelchairSeated=0`;
+    } else if (operator == "flixbus" || operator == "greyhound" || operator == "valley transit") {
+      const date = new Date(result.date);
+      const formattedDate = [
+        date.getDate().toString().padStart(2, "0"),
+        (date.getMonth() + 1).toString().padStart(2, "0"), // Months are 0-based
+        date.getFullYear(),
+      ].join(".");
+      url = `https://shop.flixbus.com/search?departureCity=${result.departureCityID}&arrivalCity=${result.arrivalCityID}&route=Dallas%2C+TX-Houston%2C+TX&rideDate=${formattedDate}&adult=${formData.passengers}&_locale=en_US&features%5Bfeature.enable_distribusion%5D=1&features%5Bfeature.darken_page%5D=1`;
+    }
+    console.log(url);
+    try {
+      window.location.href = url;
+    } catch (error) {
+      console.error(
+        "There was a problem redirecting to the booking page:",
+        error
+      );
+    }
+  };
 
   const sortedResults = sortResults([...searchResults]);
 
@@ -178,16 +209,17 @@ export default function Home() {
                   className="p-2 border-2 border-gray-200 rounded-lg"
                 >
                   <option value="">Select sort option</option>
+                  <option value="alphabetical">Alphabetical (A-Z)</option>
                   <option value="priceLowHigh">Price (Low to High)</option>
                   <option value="priceHighLow">Price (High to Low)</option>
-                  <option value="alphabetical">Alphabetical (A-Z)</option>
                 </select>
               </div>
             </div>
             {sortedResults.map((result, index) => (
               <div
                 key={index}
-                className="p-4 mt-2 border-2 border-gray-200 rounded-lg"
+                onClick={() => handleBookNow(result)}
+                className="p-4 mt-2 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-gray-200"
               >
                 <div className="flex justify-between items-center mb-2">
                   <h3 className="text-xl font-semibold">{result.operator}</h3>
@@ -197,7 +229,7 @@ export default function Home() {
                 </div>
                 <div className="flex justify-between items-center mb-1">
                   <span className="font-normal">{result.departureTime}</span>
-                  <span className="font-light text-sm">{result.date}</span>
+                  {/* <span className="font-light text-sm">{result.date}</span> */}
                   <span className="font-normal">{result.arrivalTime}</span>
                 </div>
                 <div className="flex justify-between items-center">

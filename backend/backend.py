@@ -53,6 +53,8 @@ def fetchData(operator, date, departure, arrival, passengers):
     base_url, params = get_base_url_and_params(operator, date, departure, arrival, passengers)
 
     response = session.get(base_url, params=params)
+    
+    print(response.url)
     response.raise_for_status()
     data = response.json()
     trips = process_data(data, operator)
@@ -74,7 +76,9 @@ def process_data(data, operator):
                 "arrivalTime": format_date(trip['arrivalDateTime'], format='%Y-%m-%dT%H:%M:%S', to_format='%I:%M %p'),
                 "arrivalCity": trip['destination']['cityName'],
                 "arrivalStation": re.split('/|-', trip['destination']['stopName'])[0].strip(),
-                "price": trip['price']
+                "price": trip['price'],
+                "departureCityID": city_id['megabus'][trip['origin']['cityName']],
+                "arrivalCityID": city_id['megabus'][trip['destination']['cityName']]
             } for trip in data['journeys']
         ]
     elif operator == "redcoach":
@@ -88,7 +92,9 @@ def process_data(data, operator):
                 "arrivalTime": format_date(trip['Destination']['ActualArrivalDateTime'], format='%Y-%m-%dT%H:%M:%S', to_format='%I:%M %p'),
                 "arrivalCity": trip['Destination']['City']['Name'] + ", TX",
                 "arrivalStation": trip['Destination']['Stop']['Name'],
-                "price": trip['PriceFrom']
+                "price": trip['PriceFrom'],
+                "departureCityID": city_id['redcoach'][trip['Origin']['City']['Name'] + ", TX"],
+                "arrivalCityID": city_id['redcoach'][trip['Destination']['City']['Name'] + ", TX"]
             } for trip in data['Journeys']
         ]
     elif operator == "flixbus":
@@ -109,7 +115,9 @@ def process_data(data, operator):
                 "arrivalTime": format_date(trip['arrival']['date'], format='%Y-%m-%dT%H:%M:%S', to_format='%I:%M %p'),
                 "arrivalCity": cities.get(trip['arrival']['city_id'], "Unknown"),
                 "arrivalStation": stations.get(trip['arrival']['station_id'], "Unknown"),
-                "price": trip['price']['total']
+                "price": trip['price']['total'],
+                "departureCityID": [trip['departure']['city_id']][0],
+                "arrivalCityID": [trip['arrival']['city_id']][0]
             } for key, trip in data.get('trips', [{}])[0].get('results', {}).items()
         ]
     else:
