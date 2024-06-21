@@ -50,8 +50,6 @@ TXBus is a React-based web application designed to help users search for bus tra
    - Combine the results from all operators.
    - Return the combined list of trips.
 
-# Code for the provided backend.py functionality is already given.
-
 ## Technologies Used
 
 - **React**: For building the user interface.
