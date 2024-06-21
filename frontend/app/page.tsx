@@ -119,7 +119,7 @@ export default function Home() {
   return (
     <main className="p-4">
       <div className="max-w-xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-6">TXBus</h1>
+        <h1 className="text-4xl font-bold text-center mb-6">🚌 TXBus</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex justify-between gap-4">
             <div className="flex-1">
